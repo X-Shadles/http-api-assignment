@@ -1,0 +1,21 @@
+{
+  "name": "http-api-assignment",
+  "version": "1.0.0",
+  "description": "Http Api request tests",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Test Complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/X-Shadles/http-api-assignment.git"
+  },
+  "author": "Ethan Henson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/X-Shadles/http-api-assignment/issues"
+  },
+  "homepage": "https://github.com/X-Shadles/http-api-assignment#readme"
+}
