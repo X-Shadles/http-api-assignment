@@ -5,6 +5,7 @@ const respondJSON = (request, response, status, object) => {
   response.write(JSON.stringify(object));
   response.end();
 };
+//Accept Header done, look at response.js
 
 const success = (request, response) => {
   const responseJSON = {
@@ -20,7 +21,7 @@ const badRequest = (request, response, params) => {
     id: 'notBadRequest',
   };
 
-  if (!params.valid || params.valid !== 'true') {
+  if (!params || params !== 'true') {
     responseJSON.message = 'Missing valid query parameter set to true';
     responseJSON.id = 'badRequest';
     return respondJSON(request, response, 400, responseJSON);
@@ -35,7 +36,7 @@ const unauthorized = (request, response, params) => {
     id: 'authorized'
   };
 
-  if (!params.loggedIn || params.loggedIn !== 'yes') {
+  if (!params || params !== 'yes') {
     responseJSON.message = 'Missing valid query parameter set to yes';
     responseJSON.message = 'You need to log in';
     responseJSON.id = 'unauthorized';

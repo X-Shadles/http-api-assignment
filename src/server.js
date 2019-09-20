@@ -21,13 +21,14 @@
     const onRequest = (request, response) => {
       const parsedUrl = url.parse(request.url);
       const params = parsedUrl.query;
+      console.log (params);
 
       if (urlStruct[parsedUrl.pathname]) {
-
-        urlStruct[parsedUrl.pathname](request, response, params);
+          urlStruct[parsedUrl.pathname](request, response, params);
+          console.log(params);
       } else {
 
-        urlStruct.notFound(request, response, params);
+        urlStruct.notFound(request, response);
       }
     };
 
