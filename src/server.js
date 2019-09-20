@@ -10,12 +10,13 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const urlStruct = {
   '/': htmlHandler.getIndex,
+  '/style.css': htmlHandler.getCss,
   '/success': jsonHandler.success,
   '/badRequest': jsonHandler.badRequest,
-  '/unauthorized': jsonHandler.badRequest,
-  '/forbidden': jsonHandler.badRequest,
-  '/internal': jsonHandler.badRequest,
-  '/notImplemented': jsonHandler.badRequest,
+  '/unauthorized': jsonHandler.unauthorized,
+  '/forbidden': jsonHandler.forbidden,
+  '/internal': jsonHandler.internal,
+  '/notImplemented': jsonHandler.notImplemented,
   notFound: jsonHandler.notFound,
 };
 
