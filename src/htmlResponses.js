@@ -5,7 +5,7 @@ const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 
 const getIndex = (request, response) => {
   response.writeHead(200, {
-    'Content-Type': 'text/html'
+    'Content-Type': 'text/html',
   });
   response.write(index);
   response.end();
@@ -13,7 +13,7 @@ const getIndex = (request, response) => {
 
 const getCss = (request, response) => {
   response.writeHead(200, {
-    'Content-Type': 'text/css'
+    'Content-Type': 'text/css',
   });
   response.write(css);
   response.end();

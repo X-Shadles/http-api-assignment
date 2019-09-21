@@ -1,34 +1,31 @@
 const respondJSON = (request, response, status, object, type) => {
-  
   if (type[0] === 'text/xml') {
-
     let responseXML = '<response>';
     responseXML = `${responseXML} <code> ${object.id} </code>`;
     responseXML = `${responseXML} <msg> ${object.message} </msg>`;
     responseXML = `${responseXML} </response>`;
 
     response.writeHead(status, {
-      'Content-Type': type[0]
+      'Content-Type': type[0],
     });
     response.write(responseXML);
     response.end();
-
   } else if (type[0] === 'application/json') {
     response.writeHead(status, {
-      'Content-Type': type[0]
+      'Content-Type': type[0],
     });
     response.write(JSON.stringify(object));
     response.end();
   }
 };
-//Accept Header done, look at response.js
+// Accept Header done, look at response.js
 
 const success = (request, response, type) => {
   const responseJSON = {
     message: 'This is a successful response',
     id: 'success',
   };
-  respondJSON(request, response, 200, responseJSON, type);
+  return respondJSON(request, response, 200, responseJSON, type);
 };
 
 const badRequest = (request, response, type, params) => {
@@ -49,7 +46,7 @@ const badRequest = (request, response, type, params) => {
 const unauthorized = (request, response, type, params) => {
   const responseJSON = {
     message: 'This request has the required parameters',
-    id: 'authorized'
+    id: 'authorized',
   };
 
   if (!params || params !== 'yes') {
@@ -59,8 +56,8 @@ const unauthorized = (request, response, type, params) => {
     return respondJSON(request, response, 401, responseJSON, type);
   }
 
-  respondJSON(request, response, 200, responseJSON, type);
-}
+  return respondJSON(request, response, 200, responseJSON, type);
+};
 
 const forbidden = (request, response, type) => {
   const responseJSON = {
@@ -68,7 +65,7 @@ const forbidden = (request, response, type) => {
     id: 'forbidden',
   };
 
-  respondJSON(request, response, 403, responseJSON, type);
+  return respondJSON(request, response, 403, responseJSON, type);
 };
 
 const internal = (request, response, type) => {
@@ -77,7 +74,7 @@ const internal = (request, response, type) => {
     id: 'internal',
   };
 
-  respondJSON(request, response, 500, responseJSON, type);
+  return respondJSON(request, response, 500, responseJSON, type);
 };
 
 const notImplemented = (request, response, type) => {
@@ -86,7 +83,7 @@ const notImplemented = (request, response, type) => {
     id: 'notImplemented',
   };
 
-  respondJSON(request, response, 501, responseJSON, type);
+  return respondJSON(request, response, 501, responseJSON, type);
 };
 
 const notFound = (request, response, type) => {
