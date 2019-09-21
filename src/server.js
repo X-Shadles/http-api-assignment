@@ -21,14 +21,17 @@
     const onRequest = (request, response) => {
       const parsedUrl = url.parse(request.url);
       const params = parsedUrl.query;
-      console.log (params);
+      const type = request.headers.accept.split(',');
+      //'application/json' is a type
+      //look at Accept Headers
 
       if (urlStruct[parsedUrl.pathname]) {
-          urlStruct[parsedUrl.pathname](request, response, params);
-          console.log(params);
+
+          urlStruct[parsedUrl.pathname](request, response, type, params);
+
       } else {
 
-        urlStruct.notFound(request, response);
+        urlStruct.notFound(request, response, type);
       }
     };
 

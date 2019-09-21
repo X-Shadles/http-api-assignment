@@ -14,18 +14,14 @@
       const type = xhr.getResponseHeader('content-type');
       const content = document.querySelector('#content');
 
-      
-      const obj = JSON.parse(xhr.response);
-      content.innerHTML += `<p>${xhr.response}</p>`;
-      console.dir(obj);
-      
+
       //check the status code
       if (type === 'application/json'){
+        
+
       switch(xhr.status) {
         case 200: //success
           content.innerHTML = `<b>Success</b>`;
-          content.innerHTML += `</br>${obj.message}`;
-          console.log(obj.message);
           break;
         case 400: //bad request
           content.innerHTML = `<b>Bad Request</b>`;
@@ -50,12 +46,20 @@
           break;
       }   
       
+      if(parseResponse){
+      const obj = JSON.parse(xhr.response);
+      //content.innerHTML = `<b>${obj.id}</b>`;
+      //content.innerHTML += `<p>${xhr.response}</p>`;
+      console.dir(obj);
+      content.innerHTML += `<p>${obj.message}</p>`;
+      }
+      
       } else if (type === 'text/xml') {
-        const code = xhr.responseXML.querySelector(xhr.status);
-        const body = xhr.responseXML.querySelector(xhr.response);
+        const code = xhr.responseXML.querySelector('code').textContent;
+        const age = xhr.responseXML.querySelector('msg').textContent;
         
-       content.innerHTML  += `Code:  ${code}`;
-       content.innerHTML += `Msg: ${body}`;
+       content.innerHTML  = `Code:  ${code}`;
+       content.innerHTML += `</br>Message: ${age}`;
        //accept headers done, client
 
       }

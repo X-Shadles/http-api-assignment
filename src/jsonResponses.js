@@ -1,21 +1,37 @@
-const respondJSON = (request, response, status, object) => {
-  response.writeHead(status, {
-    'Content-Type': 'application/json'
-  });
-  response.write(JSON.stringify(object));
-  response.end();
+const respondJSON = (request, response, status, object, type) => {
+  
+  if (type[0] === 'text/xml') {
+
+    let responseXML = '<response>';
+    responseXML = `${responseXML} <code> ${object.id} </code>`;
+    responseXML = `${responseXML} <msg> ${object.message} </msg>`;
+    responseXML = `${responseXML} </response>`;
+
+    response.writeHead(status, {
+      'Content-Type': type[0]
+    });
+    response.write(responseXML);
+    response.end();
+
+  } else if (type[0] === 'application/json') {
+    response.writeHead(status, {
+      'Content-Type': type[0]
+    });
+    response.write(JSON.stringify(object));
+    response.end();
+  }
 };
 //Accept Header done, look at response.js
 
-const success = (request, response) => {
+const success = (request, response, type) => {
   const responseJSON = {
     message: 'This is a successful response',
     id: 'success',
   };
-  respondJSON(request, response, 200, responseJSON);
+  respondJSON(request, response, 200, responseJSON, type);
 };
 
-const badRequest = (request, response, params) => {
+const badRequest = (request, response, type, params) => {
   const responseJSON = {
     message: 'This request has the required parameters',
     id: 'notBadRequest',
@@ -24,13 +40,13 @@ const badRequest = (request, response, params) => {
   if (!params || params !== 'true') {
     responseJSON.message = 'Missing valid query parameter set to true';
     responseJSON.id = 'badRequest';
-    return respondJSON(request, response, 400, responseJSON);
+    return respondJSON(request, response, 400, responseJSON, type);
   }
 
-  return respondJSON(request, response, 200, responseJSON);
+  return respondJSON(request, response, 200, responseJSON, type);
 };
 
-const unauthorized = (request, response, params) => {
+const unauthorized = (request, response, type, params) => {
   const responseJSON = {
     message: 'This request has the required parameters',
     id: 'authorized'
@@ -40,46 +56,46 @@ const unauthorized = (request, response, params) => {
     responseJSON.message = 'Missing valid query parameter set to yes';
     responseJSON.message = 'You need to log in';
     responseJSON.id = 'unauthorized';
-    return respondJSON(request, response, 401, responseJSON);
+    return respondJSON(request, response, 401, responseJSON, type);
   }
 
-  respondJSON(request, response, 200, responseJSON);
+  respondJSON(request, response, 200, responseJSON, type);
 }
 
-const forbidden = (request, response) => {
+const forbidden = (request, response, type) => {
   const responseJSON = {
     message: 'Hey, you can\'t be here!',
     id: 'forbidden',
   };
 
-  respondJSON(request, response, 403, responseJSON);
+  respondJSON(request, response, 403, responseJSON, type);
 };
 
-const internal = (request, response) => {
+const internal = (request, response, type) => {
   const responseJSON = {
     message: 'Internal Server Error',
     id: 'internal',
   };
 
-  respondJSON(request, response, 500, responseJSON);
+  respondJSON(request, response, 500, responseJSON, type);
 };
 
-const notImplemented = (request, response) => {
+const notImplemented = (request, response, type) => {
   const responseJSON = {
     message: 'Status code for this is not implemented',
     id: 'notImplemented',
   };
 
-  respondJSON(request, response, 501, responseJSON);
+  respondJSON(request, response, 501, responseJSON, type);
 };
 
-const notFound = (request, response) => {
+const notFound = (request, response, type) => {
   const responseJSON = {
     message: 'The page you are looking for was not found!!',
     id: 'notFound',
   };
 
-  return respondJSON(request, response, 404, responseJSON);
+  return respondJSON(request, response, 404, responseJSON, type);
 };
 
 
